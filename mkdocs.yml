@@ -1,0 +1,37 @@
+site_name: LwM2M API Server
+theme: material
+extra_css : [extra.css]
+extra:
+  palette:
+    primary: 'deep purple'
+    accent: 'purple'
+repo_name: 'my-github-handle/my-project'
+repo_url: 'https://github.com/my-github-handle/my-project'
+markdown_extensions:
+    - footnotes
+    - def_list
+    - mdx_grid_tables
+    - figureAltCaption
+    - codehilite
+    - admonition
+    - pymdownx.arithmatex
+    - pymdownx.betterem(smart_enable=all)
+    - pymdownx.caret
+    - pymdownx.critic
+    - pymdownx.emoji:
+        emoji_generator: !!python/name:pymdownx.emoji.to_svg
+    - pymdownx.inlinehilite
+    - pymdownx.magiclink
+    - pymdownx.mark
+    - pymdownx.smartsymbols
+    - pymdownx.superfences
+    - pymdownx.tasklist(custom_checkbox=true)
+    - pymdownx.tilde
+    - markdown_blockdiag:
+            format: svg
+pages:
+    - Home: 'index.md'
+    - LwM2M Server: 'lwm2m-server/index.md'
+    - LwM2M Service: 'lwm2m-service/index.md'
+
+

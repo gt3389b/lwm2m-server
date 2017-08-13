@@ -1,0 +1,25 @@
+{
+  "name": "lwm2m-server",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "nodemon --debug server.js"
+  },
+  "dependencies": {
+    "async": "^2.5.0",
+    "body-parser": "^1.17.2",
+    "debug": "^3.0.0",
+    "express": "^4.15.3",
+    "mongoose": "^4.8.1",
+    "mongoose-auto-increment": "^5.0.1",
+    "mongoose-datatable": "^1.0.6",
+    "mongoose-datatables": "^2.0.1",
+    "mongoose-relationship": "^0.1.5",
+    "socket.io": "^1.7.2",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-open": "^2.0.0",
+    "gulp-wait2": "0.0.5"
+  }
+}
