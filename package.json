@@ -14,6 +14,7 @@
     "mongoose-datatable": "^1.0.6",
     "mongoose-datatables": "^2.0.1",
     "mongoose-relationship": "^0.1.5",
+    "mqtt": "^2.12.0",
     "socket.io": "^1.7.2",
     "underscore": "^1.8.3"
   },

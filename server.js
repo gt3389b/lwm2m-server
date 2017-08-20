@@ -47,6 +47,7 @@ router.use('/owners', require('./controllers/owners'));
 router.use('/observations', require('./controllers/observations'));
 router.use('/devicemodels', require('./controllers/device_models'));
 router.use('/actions', require('./controllers/actions'));
+router.use('/queuedrequests', require('./controllers/queued_requests'));
 app.use('/api', router);
 
 

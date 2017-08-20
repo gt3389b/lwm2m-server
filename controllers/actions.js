@@ -29,12 +29,19 @@ router.post('/', function (req, res) {
     var Action = new models.Action(req.body);
 
     models.DeviceModel.findOne({id: req.body.device_model}, function(error, dm){
-        console.log(dm);
         Action.device_model = dm._id;
         Action.save(function(error){
-            models.Action.findOne({id: Action.id}, '-_id -__v').populate('device_model', 'id name -_id').exec(function (err, data) {
-                res.json({action: data});
-            });
+            if(!error){
+                models.Action.findOne({id: Action.id}, '-_id -__v').populate('device_model', 'id name -_id').exec(function (err, data) {
+                    if(err){
+                        res.json({error: err});
+                    } else {
+                        res.json({action: data});
+                    }
+                });
+            } else {
+                res.json({error});
+            }
         });
     });
 });
@@ -42,9 +49,26 @@ router.post('/', function (req, res) {
 router.post('/:id', function (req, res) {
     debug('POST /actions/%d', req.params.id, req.body);
     var params = req.body;
-    models.Action.findOneAndUpdate({id: req.params.id}, req.body, function (err, data) {
-        params.id = data.id;
-        res.json({action: params});
+
+    models.DeviceModel.findOne({id: req.body.device_model}, function(error, dm){
+
+        if(dm){
+            req.body.device_model = dm._id;
+        }
+
+        models.Action.findOneAndUpdate({id: req.params.id}, req.body, function (err, data) {
+            if(err){
+                res.json({error: err});
+            } else {
+                models.Action.findOne({id: data.id}, '-_id -__v').populate('device_model', 'id name -_id').exec(function (err, data) {
+                    if(err){
+                        res.json({error: err});
+                    } else {
+                        res.json({action: data});
+                    }
+                });
+            }
+        });
     });
 });
 

@@ -46,17 +46,18 @@ const DeviceModel = new Schema({
 
 const commands = ["read", "write", "observe", "execute", "writeAttr"];
 const executions = ["registration"];
+const services = ["MQTT"];
 
 const Action = new Schema({
     id: Number,
     command: {type: String, enum: commands},
-    oid: {type: String, default: null},
-    iid: {type: String, default: null},
-    rid: {type: String, default: null},
+    oid: {type: Number, default: null},
+    iid: {type: Number, default: null},
+    rid: {type: Number, default: null},
     payload: String,
     execution: {type: String, enum: executions},
     activated: {type: Boolean, default: true},
-    mqtt_topic: String,
+    services: [],
     device_model: {type:Schema.ObjectId, ref: 'DeviceModel'}
 });
 
@@ -67,6 +68,13 @@ const Observation = new Schema({
     rid: {type: String, default: null},
     mqtt_topic: String
 });
+
+
+const ServicesActions = new Schema({
+    config: Object,
+    service: {type: String, enum: services},
+});
+
 
 const Aggregator = new Schema({
     name: String,
@@ -84,6 +92,7 @@ function load(db) {
 
     DeviceModel.plugin(autoIncrement.plugin, { model: 'DeviceModel', field: 'id', startAt: 100 });
     Action.plugin(autoIncrement.plugin, { model: 'Action', field: 'id', startAt: 1000 });
+    Owner.plugin(autoIncrement.plugin, { model: 'Owner', field: 'id', startAt: 10 });
 
     module.exports.Owner = db.model('Owner', Owner);
     module.exports.LwObject = db.model('LwObject', LwObject);

@@ -14,10 +14,10 @@ router.get("/:deviceId", function(req, res){
             const obs = {
                 id: sub.id,
                 path: sub.resource,
-                did: sub.deviceId,
-                oid: ids[1],
-                iid: ids[2],
-                rid: ids[3]
+                did: parseInt(sub.deviceId),
+                oid: parseInt(ids[1]),
+                iid: parseInt(ids[2]),
+                rid: parseInt(ids[3])
             };
             observations.push(obs);
         });

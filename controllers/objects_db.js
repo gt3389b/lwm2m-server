@@ -24,28 +24,47 @@ router.get("/:id", function(req, res){
 });
 
 router.post('/', function (req, res) {
-    var LwObject = new models.LwObject(req.body);
-    LwObject.save(function(err){
-        res.json({error: err});
+    models.Owner.findOne({id: req.body.owner}, function(error, owner){
+        req.body.owner = owner._id;
+        var LwObject = new models.LwObject(req.body);
+        LwObject.save(function(err){
+            models.LwObject.findOne({id: LwObject.id}, '-_id -__v')
+              .populate('owner', '-_id -__v').exec(function (err, object) {
+                res.json({object: object});
+            });
+
+        });
     });
+
 });
 
 router.delete('/:id', function (req, res) {
     var LwObject = models.LwObject;
     LwObject.findOneAndRemove({id: req.params.id}, function(err, data) {
-        res.json({error: err});
+        res.json({object: {id: data.id}});
     });
 });
 
 router.post('/:id/:res?', function (req, res) {
-    var LwObject = models.LwObject;
 
     if(!req.params.res){
-        LwObject.findOneAndUpdate({id: req.params.id}, req.body, function(err, data) {
-            res.json({error: err});
-        });
+        if(req.body.owner){
+            models.Owner.findOne({id: req.body.owner}, function(error, owner){
+                req.body.owner = owner._id;
+                models.LwObject.findOneAndUpdate({id: req.params.id}, req.body, function(err, data) {
+                    if(!err){
+                        models.LwObject.findOne({_id: data._id}, '-_id -__v')
+                          .populate('owner', '-_id -__v').exec(function (err, object) {
+                            res.json({object: object});
+                        });
+                    } else {
+                        res.json({error: err});
+                    }
+                });
+            });
+        }
     } else {
-        LwObject.findOne({id: req.params.id}, function(err, data){
+        models.LwObject.findOne({id: req.params.id}, function(err, data){
             data.resources.push(req.params.res);
             data.save(function(err){
                 res.json({error: err});
