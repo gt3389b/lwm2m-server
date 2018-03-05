@@ -2,13 +2,16 @@
   "name": "lwm2m-server",
   "version": "0.1.0",
   "scripts": {
-    "start": "nodemon --debug server.js"
+    "start": "nodemon --debug server.js",
+    "postinstall": "npm install lwm2m-node-lib/",
+    "mongo": "docker run -d -p 27017:27017 mongo"
   },
   "dependencies": {
     "async": "^2.5.0",
     "body-parser": "^1.17.2",
     "debug": "^3.0.0",
     "express": "^4.15.3",
+    "lwm2m-node-lib": "file:lwm2m-node-lib",
     "mongoose": "^4.8.1",
     "mongoose-auto-increment": "^5.0.1",
     "mongoose-datatable": "^1.0.6",
