@@ -42,14 +42,16 @@ var queueAddResourcesInDevice = async.queue(function addResources({registry, dev
     registry.get(deviceId, function(error, device){
         debug('addDiscoveredResources()', deviceId, oid, iid, resourcesIds);
         var o = device.objects;
-        var dRes = _.findWhere(_.findWhere(o, {id: parseInt(oid)})
-          .instances, {id:  parseInt(iid)}).resources;
-        _.difference(resourcesIds, dRes.map(function(e){return e.id})).map(function(resid){
-            dRes.push({id: resid, value: null});
-        });
-        registry.update(parseInt(deviceId), device, function(error){
-            callback();
-        });
+        var dIns = _.findWhere(o, {id: parseInt(oid)});
+        if (dIns) {
+            var dRes = _.findWhere(dIns.instances, {id:  parseInt(iid)}).resources;
+            _.difference(resourcesIds, dRes.map(function(e){return e.id})).map(function(resid){
+                  dRes.push({id: resid, value: null});
+            });
+            registry.update(parseInt(deviceId), device, function(error){
+                  callback();
+            });
+        }
     });
 });
 
