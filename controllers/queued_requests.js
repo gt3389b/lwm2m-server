@@ -8,7 +8,7 @@ var express = require("express"),
 
 
 router.get('/', function (req, res) {
-    debug('GET /actions');
+    debug('GET /queuedRequests');
 
 
     var allRequests = _.map(lwm2mServer.listQueuedRequests, (req) => {
